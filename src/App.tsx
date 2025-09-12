@@ -10,6 +10,7 @@ import WeekView from "./WeekView";
 import DayView from "./DayView";
 import CompletedTaskList from "./CompletedTaskList";
 import { useCompleteTask } from "./useCompleteTask";
+import ListFilterSidebar from "./ListFilterSidebar";
 
 type ViewType = "month" | "week" | "day";
 type Theme = "light" | "dark";
@@ -26,14 +27,15 @@ function App() {
   const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
   const [selectedDay, setSelectedDay] = useState<{ year: number; month: number; day: number } | null>(null);
   const [listFilters, setListFilters] = useState<string[]>([]);
+  const [customLists, setCustomLists] = useState<string[]>([]);
 
-  // Get all unique lists from tasks and completedTasks
+  // Combine lists from tasks, completedTasks, and customLists
   const allLists = Array.from(
-    new Set(
-      [...tasks, ...completedTasks]
-        .map((task) => task.list)
-        .filter((list) => !!list)
-    )
+    new Set([
+      ...tasks.map(task => task.list),
+      ...completedTasks.map(task => task.list),
+      ...customLists,
+    ].filter(list => !!list))
   );
 
   // Navigation helpers
@@ -85,38 +87,23 @@ function App() {
     return () => window.removeEventListener("resize", checkScreen);
   }, []);
 
+  // Add this handler
+  const handleAddList = (listName: string) => {
+    setCustomLists(prev =>
+      prev.includes(listName) ? prev : [...prev, listName]
+    );
+  };
+
   return (
     <div className={`app-root ${theme}`}>
       <div className="app-main-container">
         {/* List Filter Sidebar */}
-        <div className="list-filter-sidebar">
-          <h4 style={{ marginTop: 0 }}>Filter by List</h4>
-          {allLists.length === 0 && <div style={{ color: "#888" }}>No lists</div>}
-          {allLists.map(list => (
-            <label key={list} className="list-filter-label">
-              <input
-                type="checkbox"
-                checked={listFilters.includes(list)}
-                onChange={e => {
-                  setListFilters(filters =>
-                    e.target.checked
-                      ? [...filters, list]
-                      : filters.filter(l => l !== list)
-                  );
-                }}
-                style={{ marginRight: 8 }}
-              />
-              {list}
-            </label>
-          ))}
-          <button
-            className="list-filter-showall-btn"
-            onClick={() => setListFilters([])}
-            disabled={listFilters.length === 0}
-          >
-            Show All
-          </button>
-        </div>
+        <ListFilterSidebar
+          allLists={allLists}
+          listFilters={listFilters}
+          setListFilters={setListFilters}
+          onAddList={handleAddList}
+        />
         <div className="calendar-main">
           <div className="calendar-toolbar">
             <button onClick={prev}>Prev</button>

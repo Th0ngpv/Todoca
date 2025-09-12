@@ -2,7 +2,7 @@ import type { Task } from "./AddTask";
 
 // Generates 24 random tasks for the current month and year
 export function generateRandomTasks(date: Date): Task[] {
-  const lists = ["Work", "Personal", "Study", "Fitness", "Fitness", "Hobby"];
+  const lists = ["Work", "RMIT 2026", "For My Friend", "Fitness", "Fitness", "Hobby"];
   const titles = [
     "This is a really long task", "This is a really long task", "This is a really long task", "This is a really long task", "This is a really long task", "Research", "Test", "Deploy",
     "Fix bug", "Brainstorm", "Sync", "Backup", "Update", "Organize", "Meditate", "Walk"

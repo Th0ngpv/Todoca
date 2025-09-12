@@ -1,4 +1,3 @@
-import React from "react";
 import type { Task } from "./AddTask";
 import "./MonthView.css";
 

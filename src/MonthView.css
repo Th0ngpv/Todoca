@@ -14,7 +14,6 @@
 .calendar-cell {
   min-height: 7rem;
   background: var(--bg-cell);
-  border-radius: 6px;
   padding: 4px;
   overflow-y: auto;
   position: relative;
