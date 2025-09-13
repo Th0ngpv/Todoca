@@ -1,0 +1,34 @@
+.calendar-day-view {
+  padding: 16px;
+}
+
+.calendar-day-view h3 {
+  margin-top: 0;
+}
+
+.day-task-list {
+  font-size: 0.9em;
+  text-align: left;
+}
+
+.day-task-item {
+  display: flex;
+  align-items: center;
+  background: var(--bg-task);
+  color: var(--color-task);
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: 2px 0;
+  font-size: 0.85em;
+  word-break: break-word;
+  cursor: pointer;
+}
+
+.day-task-checkbox {
+  margin-right: 6px;
+  accent-color: #4caf50;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+}
