@@ -1,4 +1,3 @@
-import React from "react";
 import type { Task } from "./AddTask";
 
 type Props = {
@@ -47,7 +46,6 @@ export default function CompletedTaskList({ completedTasks, view, date, filterBy
       padding: 16,
       minWidth: 220,
       maxHeight: "80vh",
-      overflowY: "auto",
     }}>
       <h3 style={{ textAlign: "center" }}>Completed Tasks</h3>
       {completedTasksForView.length === 0 ? (
