@@ -24,6 +24,7 @@ export default function ListFilterSidebar({ selectedListIds, onSelectLists }: Pr
   const [newListColor, setNewListColor] = useState("#0091ff");
   const [creating, setCreating] = useState(false);
   const [popupList, setPopupList] = useState<List | null>(null);
+  const [popupPosition, setPopupPosition] = useState<{ top: number; left: number } | null>(null);
   const colorInputRef = useRef<HTMLInputElement>(null);
 
   // Fetch lists on component mount
@@ -156,7 +157,20 @@ export default function ListFilterSidebar({ selectedListIds, onSelectLists }: Pr
                   aria-label={`Show/hide ${list.name}`}
                   onClick={e => e.stopPropagation()}
                 />
-                <span className="list-name" title={list.name.length > 18 ? list.name : undefined}>
+                <span
+                  className="list-name"
+                  title={list.name.length > 18 ? list.name : undefined}
+                  onClick={() => {
+                    let newSelected: string[];
+                    if (checked) {
+                      newSelected = selectedListIds.filter(id => id !== list.id);
+                    } else {
+                      newSelected = [...selectedListIds, list.id];
+                    }
+                    onSelectLists(newSelected);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
                   {list.name.length > 18 ? list.name.slice(0, 15) + '…' : list.name}
                 </span>
                 {/* Three dots menu */}
@@ -168,15 +182,25 @@ export default function ListFilterSidebar({ selectedListIds, onSelectLists }: Pr
                   onClick={e => {
                     e.stopPropagation();
                     setPopupList(list);
+                    // Get the button's position relative to the viewport
+                    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                    setPopupPosition({
+                      top: rect.bottom + window.scrollY,
+                      left: rect.left + window.scrollX,
+                    });
                   }}
                 >
                   <ThreeDotsIcon />
                 </button>
-                {popupList && popupList.id === list.id && (
+                {popupList && popupList.id === list.id && popupPosition && (
                   <ManageListPopUp
                     list={popupList}
-                    onClose={() => setPopupList(null)}
+                    onClose={() => {
+                      setPopupList(null);
+                      setPopupPosition(null);
+                    }}
                     onListUpdated={async () => setLists(await getLists())}
+                    position={popupPosition}
                   />
                 )}
               </li>

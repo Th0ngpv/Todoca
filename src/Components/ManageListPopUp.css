@@ -8,37 +8,40 @@
 .manage-list-popup {
   position: absolute;
   right: 0;
-  top: 32px;
+  top: var(--space-lg);
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-  padding: 16px;
-  min-width: 200px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-md) var(--space-md) var(--space-md) calc(var(--space-md) + 20px); /* Extra left padding for X icon */
+  min-width: 220px;
   z-index: 1001;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-md);
+  outline: none;
 }
 
 .manage-list-popup-title {
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-size-md);
+  color: var(--color-main);
 }
 
 .manage-list-popup-action {
   background: none;
   border: none;
-  color: #0091ff;
-  font-size: 1em;
+  color: var(--color-accent);
+  font-size: var(--font-size-md);
   text-align: left;
-  padding: 6px 0;
+  padding: var(--space-xs) 0;
   cursor: pointer;
   border-radius: 4px;
   transition: background 0.2s;
 }
 
 .manage-list-popup-action.delete {
-  color: #ff5e5e;
+  color: var(--color-danger);
 }
 
 .manage-list-popup-action:hover,
@@ -46,34 +49,24 @@
   background: #f0f4fa;
 }
 
-.manage-list-popup-close {
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 1.1em;
-  align-self: flex-end;
-  cursor: pointer;
-  margin-top: 4px;
-}
-
 /* Edit form styles */
 .edit-list-form {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-xs);
 }
 
 .edit-list-input {
   flex: 1;
-  padding: 4px 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1em;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: var(--font-size-md);
 }
 
 .edit-list-color {
-  width: 20px;
-  height: 20px;
+  width: 1.5em;
+  height: 1.5em;
   border: none;
   background: none;
   border-radius: 50%;
@@ -84,12 +77,74 @@
 .edit-list-cancel {
   background: none;
   border: none;
-  font-size: 1.1em;
+  font-size: var(--font-size-md);
   cursor: pointer;
-  padding: 0 4px;
-  color: #0091ff;
+  padding: 0 var(--space-xs);
+  color: var(--color-accent);
 }
 
 .edit-list-cancel {
-  color: #ff5e5e;
+  color: var(--color-danger);
+}
+
+/* Sectioning for actions */
+.manage-list-popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+/* Delete confirmation section */
+.delete-confirm-section {
+  margin-top: var(--space-xs);
+  padding: var(--space-xs) 0 0 0;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.delete-confirm-text {
+  color: var(--color-main);
+  font-size: var(--font-size-md);
+}
+
+.delete-confirm-actions {
+  display: flex;
+  gap: var(--space-xs);
+  justify-content: flex-end;
+}
+
+/* Spinner for loading state */
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid #ccc;
+  border-top: 2px solid var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+  .manage-list-popup {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    bottom: 0 !important;
+    min-width: 0;
+    width: 95vw;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: var(--space-md);
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+    z-index: 1002;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 }
