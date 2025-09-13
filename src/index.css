@@ -1,0 +1,42 @@
+/* Global color and spacing variables */
+:root {
+  --color-main: #222;
+  --color-accent: #0091ff;
+  --color-bg: #f8f8f8;
+  --color-bg-dark: #222;
+  --color-success: #00c853;
+  --color-danger: #ff5e5e;
+  --color-border: #e0e0e0;
+
+  --font-main: 'Inter', Arial, sans-serif;
+
+  --radius: 10px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  --sidebar-width: 220px;
+  --header-height: 56px;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --font-size-sm: 0.95rem;
+  --font-size-md: 1.1rem;
+  --font-size-lg: 1.3rem;
+}
+
+/* Responsive overrides for mobile */
+@media (max-width: 600px) {
+  :root {
+    --sidebar-width: 100vw;
+    --header-height: 48px;
+    --radius: 0;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.1rem;
+    --space-md: 10px;
+    --space-lg: 16px;
+    --space-xl: 20px;
+  }
+}
