@@ -1,45 +1,3 @@
-/* Sidebar container */
-.list-filter-sidebar {
-  min-width: 180px;
-  background: var(--bg-modal, #f8f8f8);
-  border-radius: var(--radius);
-  padding: var(--space-md);
-  color: var(--color-main, #222);
-  box-sizing: border-box;
-}
-
-/* Create list form */
-.create-list-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin-bottom: var(--space-sm);
-}
-
-.create-list-input {
-  flex: 1;
-  padding: var(--space-xs) var(--space-sm);
-  border: 1px solid var(--color-border, #ccc);
-  border-radius: var(--radius);
-  font-size: var(--font-size-md);
-}
-
-.create-list-btn {
-  padding: 0 var(--space-md);
-  border: none;
-  background: var(--color-accent, #0091ff);
-  color: #fff;
-  border-radius: var(--radius);
-  font-size: var(--font-size-lg);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.create-list-btn:disabled {
-  background: #b0c4de;
-  cursor: not-allowed;
-}
-
 /* List styles */
 .list-filter-sidebar ul {
   list-style: none;
@@ -99,50 +57,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* Color swatches for list creation */
-.color-swatches {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.color-swatch {
-  width: 1.25em;
-  height: 1.25em;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  outline: none;
-  transition: box-shadow 0.2s;
-}
-
-.color-swatch.selected {
-  box-shadow: 0 0 0 2px #222;
-}
-
-.color-picker-icon {
-  width: 1.5em;
-  height: 1.5em;
-  border: 2px solid var(--color-accent, #0091ff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-left: var(--space-xs);
-  cursor: pointer;
-  transition: border-color 0.2s;
-  padding: 0;
-}
-
-.color-picker-icon:focus {
-  outline: 2px solid var(--color-accent, #0091ff);
-}
-
-.palette-emoji {
-  font-size: var(--font-size-md);
-  pointer-events: none;
 }
 
 /* Style for the three-dot menu button */
@@ -217,29 +131,4 @@
   background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.5L4.5 8L8 2" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center center;
   background-size: contain;
   pointer-events: none;
-}
-
-@media (max-width: 600px) {
-  :root {
-    --checkbox-size: 1.5em;
-    --checkbox-radius: 0.3em;
-  }
-  .list-filter-sidebar {
-    min-width: 100%;
-    padding: var(--space-sm);
-    border-radius: 0;
-  }
-  .create-list-form {
-    flex-direction: column;
-    gap: 4px;
-  }
-  .create-list-input,
-  .create-list-btn {
-    font-size: var(--font-size-md);
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .list-filter-sidebar ul {
-    font-size: var(--font-size-md);
-  }
 }

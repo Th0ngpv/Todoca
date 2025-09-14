@@ -40,3 +40,8 @@
     --space-xl: 20px;
   }
 }
+
+/* Apply globally */
+body {
+  font-family: var(--font-main);
+}

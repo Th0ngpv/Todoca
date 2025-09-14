@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import type { List } from "../types";
-import { updateList, deleteList } from "../Functions/ListCRUD";
-import "./ManageListPopUp.css";
+import type { List } from "../../types";
+import { updateList, deleteList } from "../../Functions/ListCRUD";
+import "../../Styles/ListSideBar/ManageListPopUp.css";
 
 type Props = {
   list: List;

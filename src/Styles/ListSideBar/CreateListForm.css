@@ -1,0 +1,83 @@
+.create-list-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 12px);
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.create-list-input {
+  flex: 1;
+  padding: var(--space-xs, 4px) var(--space-sm, 8px);
+  border: 1px solid var(--color-border, #ccc);
+  border-radius: var(--radius, 8px);
+  font-size: var(--font-size-md, 1rem);
+}
+
+.create-list-btn {
+  padding: 0 var(--space-md, 12px);
+  border: none;
+  background: var(--color-accent, #0091ff);
+  color: #fff;
+  border-radius: var(--radius, 8px);
+  font-size: var(--font-size-lg, 1.2rem);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.create-list-btn:disabled {
+  background: #b0c4de;
+  cursor: not-allowed;
+}
+
+/* Color swatches for list creation */
+.color-swatches {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, 6px);
+}
+
+.color-swatch {
+  width: 1.5em;
+  height: 1.5em;
+  border: 2px solid var(--color-border, #ccc);
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.2s;
+  background: transparent;
+}
+
+.color-swatch.selected {
+  box-shadow: 0 0 0 2px #222;
+}
+
+.color-picker-icon {
+  width: 1.5em;
+  height: 1.5em;
+  border: 2px solid var(--color-accent, #0091ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-left: var(--space-xs, 6px);
+  cursor: pointer;
+  transition: border-color 0.2s;
+  padding: 0;
+  background: transparent;
+}
+
+.color-picker-icon:focus {
+  outline: 2px solid var(--color-accent, #0091ff);
+}
+
+@media (max-width: 600px) {
+  .create-list-form {
+    gap: 1em;
+  }
+  .create-list-input,
+  .create-list-btn {
+    font-size: var(--font-size-md, 1rem);
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

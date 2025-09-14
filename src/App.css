@@ -1,0 +1,6 @@
+.app-main-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background: var(--color-bg, #f8f8f8);
+}
