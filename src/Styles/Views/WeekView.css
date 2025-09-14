@@ -1,0 +1,73 @@
+.calendar-week-view {
+  padding: 1rem;
+}
+
+.week-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-rows: repeat(7);
+  gap: 1rem;
+}
+
+.week-day-cell {
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius, 8px);
+  padding: 0.5rem;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  gap: 1em;
+}
+
+.week-day-cell.today-cell {
+  border: 2px solid #007bff;
+  background: #f0f8ff;
+}
+
+.week-task-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.week-day-header {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1em;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.weekday-name {
+  font-size: 1rem;
+}
+
+.weekday-number {
+  font-size: 1rem;
+  color: #555;
+}
+
+.week-day-tasks {
+  flex: 1;
+}
+
+.week-task-item {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.no-task {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.task-dueTime {
+  font-size: 0.8rem;
+  color: #888;
+}
