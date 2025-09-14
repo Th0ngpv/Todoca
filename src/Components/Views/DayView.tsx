@@ -3,17 +3,16 @@ import type { Task } from "../../types";
 import AddTaskPopUp from "../AddTaskPopUp";
 import ManageTaskPopUp from "../ManageTaskPopUp";
 import { updateTask } from "../../Functions/TaskCRUD";
-import { isSameDay, format } from "date-fns"; // ✅ use date-fns helpers
+import { isSameDay, format } from "date-fns";
 
 import "../../Styles/Views/DayView.css";
-
-const today = new Date();
 
 type Props = {
   tasks: Task[];
   refreshTasks: () => void;
   showAdd: boolean;
   setShowAdd: (v: boolean) => void;
+  currentDate: Date;   // ✅ use this for navigation
 };
 
 export default function DayView({
@@ -21,12 +20,16 @@ export default function DayView({
   refreshTasks,
   showAdd,
   setShowAdd,
+  currentDate,
 }: Props) {
   const [editTask, setEditTask] = useState<Task | null>(null);
 
-  // ✅ Filter tasks using date-fns
+  // ✅ Filter tasks for the selected day
   const filteredTasks = tasks.filter(
-    (t) => !t.archived && t.dueTime && isSameDay(new Date(t.dueTime), today)
+    (t) =>
+      !t.archived &&
+      t.dueTime &&
+      isSameDay(new Date(t.dueTime), currentDate)
   );
 
   async function handleToggleComplete(task: Task) {
@@ -39,7 +42,8 @@ export default function DayView({
 
   return (
     <div className="calendar-day-view">
-      <h3>{`Today - ${format(today, "MMMM d, yyyy")}`}</h3>
+      {/* ✅ Header shows the currently selected day */}
+      <h3>{format(currentDate, "MMMM d, yyyy")}</h3>
 
       <div className="day-task-list">
         {filteredTasks.length === 0 && <div>No tasks to display.</div>}
@@ -82,7 +86,7 @@ export default function DayView({
                 className="task-dueTime"
                 style={{ fontSize: "0.95em", color: "#888" }}
               >
-                {format(new Date(task.dueTime), "p")} 
+                {format(new Date(task.dueTime), "p")}
               </span>
             )}
           </div>

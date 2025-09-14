@@ -16,6 +16,7 @@ function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [view, setView] = useState<ViewType>("day");
   const [showAdd, setShowAdd] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date()); // ✅ lifted up
 
   async function refreshTasks() {
     setTasks(await getTasks());
@@ -36,28 +37,38 @@ function App() {
       <main className="tasks-view">
         <ToolsBar
           onAddTask={() => setShowAdd(true)}
-          view={view} 
-          onViewChange={setView} 
+          view={view}
+          onViewChange={setView}
+          currentDate={currentDate}      // ✅ pass down
+          onDateChange={setCurrentDate}  // ✅ pass down
         />
-        {view === "day" && <DayView
-          tasks={tasks}
-          refreshTasks={refreshTasks}
-          showAdd={showAdd}
-          setShowAdd={setShowAdd}
-        />}
-        {view === "week" && <WeekView
-          tasks={tasks}
-          refreshTasks={refreshTasks}
-          showAdd={showAdd}
-          setShowAdd={setShowAdd}
-        />}
-        {view === "month" && <MonthView
-          tasks={tasks}
-          refreshTasks={refreshTasks}
-          showAdd={showAdd}
-          setShowAdd={setShowAdd}
-          currentDate={new Date()}
-        />}
+        {view === "day" && (
+          <DayView
+            tasks={tasks}
+            refreshTasks={refreshTasks}
+            showAdd={showAdd}
+            setShowAdd={setShowAdd}
+            currentDate={currentDate}    // ✅ use shared date
+          />
+        )}
+        {view === "week" && (
+          <WeekView
+            tasks={tasks}
+            refreshTasks={refreshTasks}
+            showAdd={showAdd}
+            setShowAdd={setShowAdd}
+            currentDate={currentDate}    // ✅ use shared date
+          />
+        )}
+        {view === "month" && (
+          <MonthView
+            tasks={tasks}
+            refreshTasks={refreshTasks}
+            showAdd={showAdd}
+            setShowAdd={setShowAdd}
+            currentDate={currentDate}    // ✅ use shared date
+          />
+        )}
       </main>
     </div>
   );
