@@ -1,10 +1,10 @@
 /* Sidebar container */
 .list-filter-sidebar {
-
   background: var(--bg-modal, #f8f8f8);
   border-radius: var(--radius);
   padding: var(--space-md);
   color: var(--color-main, #222);
+  border: 1px solid var(--color-border, #ccc);
   box-sizing: border-box;
 }
 

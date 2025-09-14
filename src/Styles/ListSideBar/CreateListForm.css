@@ -39,6 +39,7 @@
 .color-swatch {
   width: 1.5em;
   height: 1.5em;
+  padding: 0;
   border: 2px solid var(--color-border, #ccc);
   border-radius: 50%;
   cursor: pointer;
