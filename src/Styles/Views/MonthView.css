@@ -1,0 +1,62 @@
+.calendar-month-view {
+  display: flex;
+  flex-direction: column;
+}
+
+.month-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.month-cell {
+  border: 1px solid #ddd;
+  padding: 4px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.month-cell-header {
+  text-align: center;
+  font-weight: 600;
+}
+
+.today-cell {
+  border: 2px solid #007bff;
+}
+
+.faded-cell {
+  background-color: #f8f9fa;
+  color: #aaa;
+}
+
+.day-number {
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.day-tasks {
+  flex: 1;
+  overflow: hidden;
+}
+
+.day-task-preview {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+}
+
+.more-tasks {
+  font-size: 0.75rem;
+  color: #666;
+}
