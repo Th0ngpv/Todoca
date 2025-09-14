@@ -1,0 +1,15 @@
+.tools-bar {
+  display: flex;
+  gap: 1em;
+  padding: var(--space-sm);
+}
+
+.view-selector {
+  display: flex;
+  gap: 0.5em;
+}
+
+.view-selector .active {
+  font-weight: bold;
+  text-decoration: underline; 
+}

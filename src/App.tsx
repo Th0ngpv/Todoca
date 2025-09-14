@@ -1,12 +1,22 @@
 import { useState, useEffect } from "react";
-import ListFilterSidebar from "./Components/ListSideBar/ListFilterSidebar";
-import DayView from "./Views/DayView";
 import { getTasks } from "./Functions/TaskCRUD";
 import type { Task } from "./types";
+
+import ListFilterSidebar from "./Components/ListSideBar/ListFilterSidebar";
+import ToolsBar from "./Components/ToolBar/ToolBar";
+
+import DayView from "./Components/Views/DayView";
+import WeekView from "./Components/Views/WeekView";
+import MonthView from "./Components/Views/MonthView";
+
+import type { ViewType } from "./Components/ToolBar/ViewSelector";
 
 function App() {
   const [selectedListIds, setSelectedListIds] = useState<string[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [view, setView] = useState<ViewType>("day");
+  const [showAdd, setShowAdd] = useState(false);
+  const [showAll, setShowAll] = useState(false);
 
   async function refreshTasks() {
     setTasks(await getTasks());
@@ -18,14 +28,42 @@ function App() {
 
   return (
     <div className="app-main-container">
-      <nav className="list-filter-sidebar">
+      <div className="list-filter-sidebar">
         <ListFilterSidebar
           selectedListIds={selectedListIds}
           onSelectLists={setSelectedListIds}
         />
-      </nav>
-      <main className="calendar-day-view">
-        <DayView tasks={tasks} refreshTasks={refreshTasks} />
+      </div>
+      <main className="tasks-view">
+        <ToolsBar
+          onAddTask={() => setShowAdd(true)}
+          showAll={showAll}
+          onToggleShowAll={() => setShowAll((v: boolean) => !v)}
+          view={view} 
+          onViewChange={setView} 
+        />
+        {view === "day" && <DayView
+          tasks={tasks}
+          refreshTasks={refreshTasks}
+          showAll={showAll}
+          showAdd={showAdd}
+          setShowAdd={setShowAdd}
+        />}
+        {view === "week" && <WeekView
+          tasks={tasks}
+          refreshTasks={refreshTasks}
+          showAll={showAll}
+          showAdd={showAdd}
+          setShowAdd={setShowAdd}
+        />}
+        {view === "month" && <MonthView
+          tasks={tasks}
+          refreshTasks={refreshTasks}
+          showAll={showAll}
+          showAdd={showAdd}
+          setShowAdd={setShowAdd}
+          currentDate={new Date()}
+        />}
       </main>
     </div>
   );

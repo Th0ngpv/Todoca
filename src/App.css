@@ -1,6 +1,13 @@
 .app-main-container {
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
+  min-height: 95vh;
+  gap: 2em;
+  background: var(--color-bg, #f8f8f8);
+}
+
+.tasks-view {
+  flex: 8;
+  padding: 20px;
   background: var(--color-bg, #f8f8f8);
 }
