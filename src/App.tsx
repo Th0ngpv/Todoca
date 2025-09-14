@@ -16,7 +16,6 @@ function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [view, setView] = useState<ViewType>("day");
   const [showAdd, setShowAdd] = useState(false);
-  const [showAll, setShowAll] = useState(false);
 
   async function refreshTasks() {
     setTasks(await getTasks());
@@ -37,29 +36,24 @@ function App() {
       <main className="tasks-view">
         <ToolsBar
           onAddTask={() => setShowAdd(true)}
-          showAll={showAll}
-          onToggleShowAll={() => setShowAll((v: boolean) => !v)}
           view={view} 
           onViewChange={setView} 
         />
         {view === "day" && <DayView
           tasks={tasks}
           refreshTasks={refreshTasks}
-          showAll={showAll}
           showAdd={showAdd}
           setShowAdd={setShowAdd}
         />}
         {view === "week" && <WeekView
           tasks={tasks}
           refreshTasks={refreshTasks}
-          showAll={showAll}
           showAdd={showAdd}
           setShowAdd={setShowAdd}
         />}
         {view === "month" && <MonthView
           tasks={tasks}
           refreshTasks={refreshTasks}
-          showAll={showAll}
           showAdd={showAdd}
           setShowAdd={setShowAdd}
           currentDate={new Date()}
