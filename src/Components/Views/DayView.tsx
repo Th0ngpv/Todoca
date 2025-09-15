@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Task } from "../../types";
 import AddTaskPopUp from "../AddTaskPopUp";
 import ManageTaskPopUp from "../ManageTaskPopUp";
@@ -12,7 +12,7 @@ type Props = {
   refreshTasks: () => void;
   showAdd: boolean;
   setShowAdd: (v: boolean) => void;
-  currentDate: Date;   // ✅ use this for navigation
+  currentDate: Date; // navigation
 };
 
 export default function DayView({
@@ -24,12 +24,16 @@ export default function DayView({
 }: Props) {
   const [editTask, setEditTask] = useState<Task | null>(null);
 
-  // ✅ Filter tasks for the selected day
-  const filteredTasks = tasks.filter(
-    (t) =>
-      !t.archived &&
-      t.dueTime &&
-      isSameDay(new Date(t.dueTime), currentDate)
+  // Filter tasks only when [tasks, currentDate] change
+  const filteredTasks = useMemo(
+    () =>
+      tasks.filter(
+        (t) =>
+          !t.archived &&
+          t.dueTime &&
+          isSameDay(new Date(t.dueTime), currentDate)
+      ),
+    [tasks, currentDate]
   );
 
   async function handleToggleComplete(task: Task) {
@@ -42,7 +46,7 @@ export default function DayView({
 
   return (
     <div className="calendar-day-view">
-      {/* ✅ Header shows the currently selected day */}
+      {/* Header */}
       <h3>{format(currentDate, "MMMM d, yyyy")}</h3>
 
       <div className="day-task-list">
@@ -70,7 +74,7 @@ export default function DayView({
               aria-label="Mark as complete"
             />
 
-            {/* Clickable title */}
+            {/* Task title */}
             <span
               style={{ flex: 1, cursor: "pointer" }}
               onClick={() => setEditTask(task)}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Task } from "../../types";
 import AddTaskPopUp from "../AddTaskPopUp";
 import ManageTaskPopUp from "../ManageTaskPopUp";
@@ -8,7 +8,6 @@ import {
   endOfWeek,
   eachDayOfInterval,
   format,
-  isSameDay,
   isToday,
 } from "date-fns";
 
@@ -19,7 +18,7 @@ type Props = {
   refreshTasks: () => void;
   showAdd: boolean;
   setShowAdd: (v: boolean) => void;
-  currentDate: Date; // ✅ navigation control
+  currentDate: Date;
 };
 
 export default function WeekView({
@@ -31,10 +30,22 @@ export default function WeekView({
 }: Props) {
   const [editTask, setEditTask] = useState<Task | null>(null);
 
-  // ✅ Get week range (Sunday → Saturday)
+  // Week range (Sunday → Saturday)
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
   const weekEnd = endOfWeek(currentDate, { weekStartsOn: 0 });
   const days = eachDayOfInterval({ start: weekStart, end: weekEnd });
+
+  // Pre-group tasks by due date once per render
+  const tasksByDate = useMemo(() => {
+    const grouped: Record<string, Task[]> = {};
+    for (const t of tasks) {
+      if (!t.dueTime || t.archived) continue;
+      const key = format(new Date(t.dueTime), "yyyy-MM-dd");
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(t);
+    }
+    return grouped;
+  }, [tasks]);
 
   async function handleToggleComplete(task: Task) {
     await updateTask({
@@ -53,9 +64,8 @@ export default function WeekView({
 
       <div className="week-grid">
         {days.map((day) => {
-          const dayTasks = tasks.filter(
-            (t) => t.dueTime && isSameDay(new Date(t.dueTime), day) && !t.archived
-          );
+          const dayKey = format(day, "yyyy-MM-dd");
+          const dayTasks = tasksByDate[dayKey] ?? [];
 
           return (
             <div

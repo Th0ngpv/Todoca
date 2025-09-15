@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Task } from "../../types";
 import AddTaskPopUp from "../AddTaskPopUp";
 import ManageTaskPopUp from "../ManageTaskPopUp";
@@ -17,11 +17,11 @@ import {
 import "../../Styles/Views/MonthView.css";
 
 type Props = {
-  tasks: Task[];               // All tasks to display
-  refreshTasks: () => void;    // Function to reload task list after updates         // Toggle: show all tasks vs only this month’s
-  showAdd: boolean;            // Whether the "Add Task" popup is visible
-  setShowAdd: (v: boolean) => void; // Setter to toggle Add Task popup
-  currentDate: Date;           // The month to render (controlled by parent)
+  tasks: Task[];
+  refreshTasks: () => void;
+  showAdd: boolean;
+  setShowAdd: (v: boolean) => void;
+  currentDate: Date;
 };
 
 export default function MonthView({
@@ -31,26 +31,29 @@ export default function MonthView({
   setShowAdd,
   currentDate,
 }: Props) {
-  const [editTask, setEditTask] = useState<Task | null>(null); // Track task being edited
+  const [editTask, setEditTask] = useState<Task | null>(null);
 
-  // Calculate the range of days to show for this month (including extra days from prev/next month to fill weeks)
-  const monthStart = startOfMonth(currentDate);
-  const monthEnd = endOfMonth(currentDate);
-  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 }); // Sunday as first day
-  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
-  const days = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
+  // Precompute visible days for the month grid (depends only on currentDate)
+  const days = useMemo(() => {
+    const monthStart = startOfMonth(currentDate);
+    const monthEnd = endOfMonth(currentDate);
+    const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
+    const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
+    return eachDayOfInterval({ start: calendarStart, end: calendarEnd });
+  }, [currentDate]);
 
-  // Group tasks into an object keyed by YYYY-MM-DD
-  const tasksByDate: Record<string, Task[]> = {};
-  tasks.forEach((task) => {
-    if (task.archived) return; // Skip archived tasks
-    const dateKey = task.dueTime?.split("T")[0]; // Extract date portion only
-    if (!dateKey) return;
-    if (!tasksByDate[dateKey]) tasksByDate[dateKey] = [];
-    tasksByDate[dateKey].push(task);
-  });
+  // Pre-group tasks by date (depends only on tasks)
+  const tasksByDate = useMemo(() => {
+    const grouped: Record<string, Task[]> = {};
+    for (const t of tasks) {
+      if (!t.dueTime || t.archived) continue;
+      const key = format(new Date(t.dueTime), "yyyy-MM-dd");
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(t);
+    }
+    return grouped;
+  }, [tasks]);
 
-  // Toggle task completion
   async function handleToggleComplete(task: Task) {
     await updateTask({
       ...task,
@@ -61,73 +64,56 @@ export default function MonthView({
 
   return (
     <div className="calendar-month-view">
-      {/* Month title (e.g. "September 2025") */}
-      <h3 className="month-title">{format(currentDate, "MMMM yyyy")}</h3>
+      {/* Header */}
+      <h3>{format(currentDate, "MMMM yyyy")}</h3>
 
-      {/* Weekday headers row */}
-      <div className="month-grid month-headers">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-          <div key={d} className="month-cell-header">
-            {d}
-          </div>
-        ))}
-      </div>
-
-      {/* Calendar day cells */}
       <div className="month-grid">
         {days.map((day) => {
-          const dayKey = format(day, "yyyy-MM-dd"); // Match tasksByDate keys
-          const dayTasks = tasksByDate[dayKey] || []; // Otherwise, tasks only for this day
+          const dayKey = format(day, "yyyy-MM-dd");
+          const dayTasks = tasksByDate[dayKey] ?? [];
 
           return (
             <div
               key={day.toISOString()}
-              className={`month-cell ${
-                isToday(day) ? "today-cell" : ""                     // Highlight today
-              } ${!isSameMonth(day, currentDate) ? "faded-cell" : ""}`} // Fade out days outside current month
+              className={`month-day-cell 
+                ${!isSameMonth(day, currentDate) ? "outside-month" : ""}
+                ${isToday(day) ? "today-cell" : ""}`}
             >
-              {/* Day number (1, 2, 3, …) */}
-              <div className="day-number">{format(day, "d")}</div>
+              {/* Day number */}
+              <div className="month-day-header">{format(day, "d")}</div>
 
-              {/* Task previews inside the cell */}
-              <div className="day-tasks">
-                {dayTasks.slice(0, 3).map((task) => (
+              {/* Tasks */}
+              <div className="month-day-tasks">
+                {dayTasks.map((task) => (
                   <div
                     key={task.id}
-                    className="day-task-preview"
+                    className="month-task-item"
                     style={{
                       textDecoration:
                         task.status === "completed" ? "line-through" : undefined,
                       opacity: task.status === "completed" ? 0.6 : 1,
                     }}
                   >
-                    {/* Checkbox to mark complete/incomplete */}
                     <input
                       type="checkbox"
                       checked={task.status === "completed"}
                       onChange={() => handleToggleComplete(task)}
-                      aria-label="Mark as complete"
                     />
-                    {/* Clickable task title (opens ManageTaskPopUp) */}
                     <span
-                      style={{ cursor: "pointer", flex: 1 }}
+                      className="month-task-title"
                       onClick={() => setEditTask(task)}
                     >
                       {task.title}
                     </span>
                   </div>
                 ))}
-                {/* If more than 3 tasks, show “+N more” */}
-                {dayTasks.length > 3 && (
-                  <div className="more-tasks">+{dayTasks.length - 3} more</div>
-                )}
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Add Task popup */}
+      {/* Popups */}
       {showAdd && (
         <AddTaskPopUp
           onClose={() => {
@@ -136,8 +122,6 @@ export default function MonthView({
           }}
         />
       )}
-
-      {/* Manage Task popup (for editing) */}
       {editTask && (
         <ManageTaskPopUp
           task={editTask}
