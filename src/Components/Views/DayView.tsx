@@ -73,19 +73,21 @@ export default function DayView({
               onChange={() => handleToggleComplete(task)}
               aria-label="Mark as complete"
             />
-            <span
-              className="day-task-title"
-              onClick={() => setEditTask(task)}
-              tabIndex={0}
-              title="Edit task"
-            >
-              {task.title}
-            </span>
-            {task.dueTime && (
-              <span className="task-dueTime">
-                {format(new Date(task.dueTime), "p")}
+            <div className="daily-task-content">
+              <span
+                className="day-task-title"
+                onClick={() => setEditTask(task)}
+                tabIndex={0}
+                title="Edit task"
+              >
+                {task.title}
               </span>
-            )}
+              {task.dueTime && (
+                <span className="task-dueTime">
+                  {format(new Date(task.dueTime), "p")}
+                </span>
+              )}
+            </div>
           </div>
         ))}
       </div>

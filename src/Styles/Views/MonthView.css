@@ -1,8 +1,6 @@
 .calendar-month-view {
   display: flex;
   flex-direction: column;
-
-
 }
 
 .month-title {
@@ -48,7 +46,12 @@
 
 .month-day-tasks {
   flex: 1;
+  max-height: 13vh;
   overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .month-task-item {
@@ -60,7 +63,14 @@
   border-left: 4px solid var(--task-color, #ccc);
 }
 
-.more-tasks {
-  font-size: 0.75rem;
+.month-day-tasks:has(.month-task-item:nth-child(6))::after {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background: linear-gradient(to bottom, transparent, white 70%);
+  font-weight: bold;
   color: #666;
 }

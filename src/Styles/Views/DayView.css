@@ -10,20 +10,21 @@
 .day-task-list {
   font-size: 0.9em;
   text-align: left;
+  font-size: var(--font-size-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .day-task-item {
   display: flex;
   align-items: center;
   background: var(--bg-task);
-  color: var(--color-task);
-  border-radius: 4px;
-  padding: 2px 4px;
-  margin: 2px 0;
-  font-size: 0.85em;
-  word-break: break-word;
+  color: var(--color-main);
   cursor: pointer;
   border-left: 4px solid var(--task-color, #ccc);
+  gap: var(--space-md);
+  padding-left: var(--space-sm, 8px);
 }
 
 .day-task-checkbox {
@@ -32,6 +33,18 @@
   height: 16px;
   border-radius: 50%;
   cursor: pointer;
+  border: 5px solid var(--task-color, #0091ff);
+}
+
+.daily-task-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.task-due-time {
+  font-size: var(--font-size-md);
+  color: #666;
 }
 
 /* Add this if you want more spacing for the add button */
@@ -44,32 +57,4 @@
   border: none;
   cursor: pointer;
   margin-bottom: var(--space-sm, 8px);
-}
-
-@media (max-width: 800px) {
-  .calendar-day-view {
-    padding: 8px;
-  }
-  .day-task-item {
-    font-size: 1em;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 6px 8px;
-  }
-  .day-task-checkbox {
-    margin-right: 8px;
-  }
-}
-
-@media (max-width: 600px) {
-  .calendar-day-view {
-    padding: 4vw 2vw;
-  }
-  .day-task-list {
-    font-size: 1em;
-  }
-  .calendar-day-view button {
-    width: 100%;
-    margin-bottom: 8px;
-  }
 }

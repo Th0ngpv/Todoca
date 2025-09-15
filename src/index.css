@@ -45,3 +45,22 @@
 body {
   font-family: var(--font-main);
 }
+
+/* WebKit browsers (Chrome, Edge, Safari) */
+*::-webkit-scrollbar {
+  width: 6px;        /* slim width */
+  height: 6px;       /* slim height for horizontal */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent; /* no visible track */
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #bbb;       /* light gray thumb */
+  border-radius: 3px;     /* rounded corners */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #888;       /* darker on hover */
+}
