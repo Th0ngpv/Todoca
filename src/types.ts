@@ -19,6 +19,7 @@ export type Task = {
   status: "active" | "completed"; // Task status
   priority?: "low" | "medium" | "high"; // (Optional) Priority level
   recurrence?: "none" | "daily" | "weekly" | "monthly"; // (Optional) Recurrence rule
+  recurrenceEnd?: string; // (Optional) End date/time for recurrence (ISO string)
   reminder?: string;         // (Optional) Reminder date/time (ISO string)
   createdAt?: string;        // (Optional) Creation date (ISO string)
   updatedAt?: string;        // (Optional) Last updated date (ISO string)
