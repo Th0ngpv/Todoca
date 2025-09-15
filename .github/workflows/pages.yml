@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"   # use Node 20 LTS (better than 18 for Pages)
 
       - name: Install dependencies
         run: npm ci
@@ -30,13 +30,11 @@ jobs:
         run: npm run build
 
       - name: Upload artifact for Pages
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ./dist
+        uses: actions/upload-pages-artifact@v3   # ✅ updated to v3 (latest)
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4   # ✅ updated to v4 (latest)
