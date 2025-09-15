@@ -1,98 +1,135 @@
+/* ================================
+   Manage Task Popup Styles
+================================ */
+
+/* Backdrop */
 .manage-task-popup-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.08);
+  background: rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
+/* Popup container */
 .manage-task-popup {
   position: absolute;
   left: 50%;
   top: 20vh;
   transform: translateX(-50%);
   background: #fff;
-  border-radius: var(--radius, 10px);
-  box-shadow: var(--shadow, 0 2px 8px rgba(0,0,0,0.08));
-  padding: var(--space-md, 16px);
-  min-width: 260px;
+  border-radius: var(--radius, 12px);
+  box-shadow: var(--shadow, 0 4px 16px rgba(0, 0, 0, 0.1));
+  padding: var(--space-lg, 20px);
+  min-width: 280px;
   z-index: 1001;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 12px);
+  animation: fadeInScale 0.25s ease;
+}
+
+/* Popup title */
+.manage-task-popup-title {
+  font-weight: 600;
+  font-size: var(--font-size-lg, 1.2rem);
+  margin-bottom: var(--space-xs, 4px);
+}
+
+/* Content text */
+.manage-task-popup-content {
+  font-size: var(--font-size-md, 1rem);
+  margin-bottom: var(--space-sm, 8px);
+  color: var(--color-text, #333);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm, 8px);
 }
 
-.manage-task-popup-title {
-  font-weight: bold;
-  margin-bottom: var(--space-xs, 4px);
-  font-size: var(--font-size-md, 1.1rem);
-}
-
-.manage-task-popup-content {
-  margin-bottom: var(--space-xs, 4px);
-  font-size: var(--font-size-md, 1.1rem);
-}
-
+/* Action buttons */
 .manage-task-popup-actions {
   display: flex;
-  gap: var(--space-xs, 4px);
   justify-content: flex-end;
+  gap: var(--space-sm, 8px);
+}
+
+.manage-task-popup-actions button {
+  border: 1px solid var(--color-border, #ddd);
+  border-radius: var(--radius, 8px);
+  padding: 6px 12px;
+  font-size: var(--font-size-sm, 0.95rem);
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .manage-task-popup-actions .delete {
+  background: transparent;
   color: var(--color-danger, #ff5e5e);
 }
 
+.manage-task-popup-actions .delete:hover {
+  color: #e63939;
+}
+
+
+/* Edit form */
 .edit-task-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs, 4px);
+  gap: var(--space-sm, 8px);
+  font-family: var(--font-main);
 }
 
 .edit-task-form input[type="text"],
 .edit-task-form textarea,
 .edit-task-form input[type="datetime-local"] {
+  font-size: var(--font-size-md, 1rem);
+  padding: var(--space-sm, 8px);
+  border-radius: var(--radius, 8px);
+  border: 1px solid var(--color-border, #ddd);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.manage-task-popup .edit-task-form textarea {
+  font-family: var(--font-main);
+}
+
+.task-label {
   font-size: var(--font-size-md, 1.1rem);
-  padding: var(--space-xs, 4px) var(--space-sm, 8px);
-  border-radius: var(--radius, 10px);
-  border: 1px solid var(--color-border, #e0e0e0);
+  font-weight: 500;
 }
 
-.edit-task-form button {
-  margin-top: var(--space-xs, 4px);
-  padding: 0 var(--space-sm, 8px);
-  border-radius: var(--radius, 10px);
-  border: none;
-  background: var(--color-accent, #0091ff);
-  color: #fff;
-  cursor: pointer;
-  font-size: var(--font-size-md, 1.1rem);
-}
-
-.edit-task-form button[type="button"] {
-  background: var(--color-danger, #ff5e5e);
-}
-
-/* Responsive popup for mobile */
+/* Mobile responsive */
 @media (max-width: 600px) {
   .add-task-popup,
   .manage-task-popup {
     position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    top: 10vh !important;
-    bottom: auto !important;
+    inset: 10vh 0 auto 0 !important;
     transform: none !important;
-    min-width: 0;
-    border-radius: var(--radius, 10px) var(--radius, 10px) 0 0;
-    padding: var(--space-lg, 32px) var(--space-md, 16px);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-    z-index: 1002;
+    min-width: unset;
     max-height: 80vh;
+
+    border-radius: var(--radius, 12px) var(--radius, 12px) 0 0;
+    padding: var(--space-lg, 24px) var(--space-md, 16px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
     overflow-y: auto;
-    gap: var(--space-md, 16px);
   }
+
   .add-task-form,
   .edit-task-form {
     gap: var(--space-sm, 8px);
+  }
+}
+
+/* Animations */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
   }
 }
