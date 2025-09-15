@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { Task } from "../../types";
+import type { Task, List } from "../../types";
 import AddTaskPopUp from "../AddTaskPopUp";
 import ManageTaskPopUp from "../ManageTaskPopUp";
 import { updateTask } from "../../Functions/TaskCRUD";
@@ -18,6 +18,7 @@ import "../../Styles/Views/MonthView.css";
 
 type Props = {
   tasks: Task[];
+  lists: List[];
   refreshTasks: () => void;
   showAdd: boolean;
   setShowAdd: (v: boolean) => void;
@@ -26,6 +27,7 @@ type Props = {
 
 export default function MonthView({
   tasks,
+  lists, 
   refreshTasks,
   showAdd,
   setShowAdd,
@@ -33,7 +35,6 @@ export default function MonthView({
 }: Props) {
   const [editTask, setEditTask] = useState<Task | null>(null);
 
-  // Precompute visible days for the month grid (depends only on currentDate)
   const days = useMemo(() => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
@@ -42,7 +43,6 @@ export default function MonthView({
     return eachDayOfInterval({ start: calendarStart, end: calendarEnd });
   }, [currentDate]);
 
-  // Pre-group tasks by date (depends only on tasks)
   const tasksByDate = useMemo(() => {
     const grouped: Record<string, Task[]> = {};
     for (const t of tasks) {
@@ -62,37 +62,37 @@ export default function MonthView({
     refreshTasks();
   }
 
+  const getTaskColor = (task: Task) => {
+    const list = lists.find((l) => l.id === task.listId);
+    return list?.color || "#ccc";
+  };
+
   return (
     <div className="calendar-month-view">
-      {/* Header */}
       <h3>{format(currentDate, "MMMM yyyy")}</h3>
 
       <div className="month-grid">
         {days.map((day) => {
           const dayKey = format(day, "yyyy-MM-dd");
-          const dayTasks = tasksByDate[dayKey] ?? [];
+          const dayTasks = (tasksByDate[dayKey] ?? []).filter(
+            (t) => t.status !== "completed"
+          );
 
           return (
             <div
               key={day.toISOString()}
               className={`month-day-cell 
-                ${!isSameMonth(day, currentDate) ? "outside-month" : ""}
+                ${!isSameMonth(day, currentDate) ? "outside-month" : ""} 
                 ${isToday(day) ? "today-cell" : ""}`}
             >
-              {/* Day number */}
               <div className="month-day-header">{format(day, "d")}</div>
 
-              {/* Tasks */}
               <div className="month-day-tasks">
                 {dayTasks.map((task) => (
                   <div
                     key={task.id}
                     className="month-task-item"
-                    style={{
-                      textDecoration:
-                        task.status === "completed" ? "line-through" : undefined,
-                      opacity: task.status === "completed" ? 0.6 : 1,
-                    }}
+                    style={{ "--task-color": getTaskColor(task) } as React.CSSProperties}
                   >
                     <input
                       type="checkbox"
@@ -113,7 +113,6 @@ export default function MonthView({
         })}
       </div>
 
-      {/* Popups */}
       {showAdd && (
         <AddTaskPopUp
           onClose={() => {

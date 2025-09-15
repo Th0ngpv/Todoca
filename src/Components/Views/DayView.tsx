@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { Task } from "../../types";
+import type { Task, List } from "../../types";
 import AddTaskPopUp from "../AddTaskPopUp";
 import ManageTaskPopUp from "../ManageTaskPopUp";
 import { updateTask } from "../../Functions/TaskCRUD";
@@ -9,6 +9,7 @@ import "../../Styles/Views/DayView.css";
 
 type Props = {
   tasks: Task[];
+  lists: List[];
   refreshTasks: () => void;
   showAdd: boolean;
   setShowAdd: (v: boolean) => void;
@@ -17,6 +18,7 @@ type Props = {
 
 export default function DayView({
   tasks,
+  lists,
   refreshTasks,
   showAdd,
   setShowAdd,
@@ -24,12 +26,13 @@ export default function DayView({
 }: Props) {
   const [editTask, setEditTask] = useState<Task | null>(null);
 
-  // Filter tasks only when [tasks, currentDate] change
+  // Only show active (non-archived, not completed) tasks for this date
   const filteredTasks = useMemo(
     () =>
       tasks.filter(
         (t) =>
           !t.archived &&
+          t.status !== "completed" &&
           t.dueTime &&
           isSameDay(new Date(t.dueTime), currentDate)
       ),
@@ -44,6 +47,11 @@ export default function DayView({
     refreshTasks();
   }
 
+  const getTaskColor = (task: Task) => {
+    const list = lists.find((l) => l.id === task.listId);
+    return list?.color || "#ccc";
+  };
+
   return (
     <div className="calendar-day-view">
       {/* Header */}
@@ -56,40 +64,25 @@ export default function DayView({
           <div
             key={task.id}
             className="day-task-item"
-            style={{
-              textDecoration:
-                task.status === "completed" ? "line-through" : undefined,
-              opacity: task.status === "completed" ? 0.6 : 1,
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
+            style={{ "--task-color": getTaskColor(task) } as React.CSSProperties}
           >
-            {/* Toggle complete */}
             <input
               type="checkbox"
               className="day-task-checkbox"
-              checked={task.status === "completed"}
+              checked={false} // always unchecked since only active tasks show here
               onChange={() => handleToggleComplete(task)}
               aria-label="Mark as complete"
             />
-
-            {/* Task title */}
             <span
-              style={{ flex: 1, cursor: "pointer" }}
+              className="day-task-title"
               onClick={() => setEditTask(task)}
               tabIndex={0}
               title="Edit task"
             >
               {task.title}
             </span>
-
-            {/* Due time */}
             {task.dueTime && (
-              <span
-                className="task-dueTime"
-                style={{ fontSize: "0.95em", color: "#888" }}
-              >
+              <span className="task-dueTime">
                 {format(new Date(task.dueTime), "p")}
               </span>
             )}

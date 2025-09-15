@@ -63,6 +63,8 @@
   font-size: var(--font-size-sm, 1rem);
   margin-bottom: 0.25rem;
   gap: var(--space-sm);
+  border-left: 4px solid var(--task-color, #ccc);
+  transition: background 0.2s;
 }
 
 .no-task {

@@ -1,11 +1,11 @@
 /* List styles */
-.list-filter-sidebar ul {
+.list-render {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.list-filter-sidebar li {
+.list-render li {
   cursor: pointer;
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius);
@@ -28,13 +28,13 @@
 }
 
 /* Hover effect */
-.list-filter-sidebar li:hover {
+.list-render li:hover {
   background: #e0eaff;
   box-shadow: 0 2px 8px 0 rgba(0, 145, 255, 0.10);
 }
 
 /* All Tasks styling */
-.list-filter-sidebar li.all-tasks {
+.list-render li.all-tasks {
   font-weight: 600;
   color: #0072B2;
   background: #f3f8ff;
@@ -42,7 +42,7 @@
   display: flex;
   align-items: center;
 }
-.list-filter-sidebar li.all-tasks.selected {
+.list-render li.all-tasks.selected {
   background: #0072B2;
   color: #fff;
   border-color: #0072B2;

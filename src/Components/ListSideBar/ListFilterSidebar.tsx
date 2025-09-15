@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import type { List } from "../../types";
+import type { List, Task } from "../../types";
 import { getLists, addList, ensureDefaultList } from "../../Functions/ListCRUD";
 
 import CreateListForm from "./CreateListForm";
 import ListRender from "./ListRender";
+import CompletedTaskList from "./CompletedTaskList";
 
 import "../../Styles/ListSideBar/ListFilterSidebar.css";
 
 type Props = {
   selectedListIds: string[];
   onSelectLists: (listIds: string[]) => void;
+  tasks: Task[];              
+  refreshTasks: () => void;
 };
 
 /**
@@ -17,7 +20,7 @@ type Props = {
  * Fetches lists from storage on mount.
  * Allows creating a new list at the top, with color selection.
  */
-export default function ListFilterSidebar({ selectedListIds, onSelectLists }: Props) {
+export default function ListFilterSidebar({ selectedListIds, onSelectLists, tasks, refreshTasks }: Props) {
   const [lists, setLists] = useState<List[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -32,7 +35,7 @@ export default function ListFilterSidebar({ selectedListIds, onSelectLists }: Pr
       .finally(() => setLoading(false));
   }, []);
 
-  // Ensure default list exists on first load
+  
   useEffect(() => {
     let mounted = true;
 
@@ -64,23 +67,26 @@ export default function ListFilterSidebar({ selectedListIds, onSelectLists }: Pr
 
   return (
     <aside className="list-filter-sidebar">
-      <h3>Lists</h3>
-      <CreateListForm onCreate={handleCreateList} creating={creating} />
-      {loading ? (
-        <div>Loading lists...</div>
-      ) : (
-        <ListRender
-          lists={lists}
-          selectedListIds={selectedListIds}
-          onSelectLists={onSelectLists}
-          popupList={popupList}
-          setPopupList={setPopupList}
-          popupPosition={popupPosition}
-          setPopupPosition={setPopupPosition}
-          setLists={setLists}
-          getLists={getLists}
-        />
-      )}
-    </aside>
+      <div className="list-section">
+        <h3>Lists</h3>
+        <CreateListForm onCreate={handleCreateList} creating={creating} />
+        {loading ? (
+          <div>Loading lists...</div>
+        ) : (
+          <ListRender
+            lists={lists}
+            selectedListIds={selectedListIds}
+            onSelectLists={onSelectLists}
+            popupList={popupList}
+            setPopupList={setPopupList}
+            popupPosition={popupPosition}
+            setPopupPosition={setPopupPosition}
+            setLists={setLists}
+            getLists={getLists}
+          />
+        )}
+        </div>
+        <CompletedTaskList tasks={tasks} refreshTasks={refreshTasks} />
+      </aside>
   );
 }

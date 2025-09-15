@@ -29,7 +29,7 @@ export default function ListRender({
   getLists,
 }: Props) {
   return (
-    <ul>
+    <ul className="list-render">
       {/* "All Tasks" option */}
       <li
         className={selectedListIds.length === 0 ? "selected all-tasks" : "all-tasks"}
