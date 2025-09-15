@@ -15,7 +15,7 @@
   gap: 4px;
 }
 
-.month-cell {
+.month-day-cell {
   border: 1px solid #ddd;
   padding: 4px;
   min-height: 100px;
@@ -23,7 +23,7 @@
   flex-direction: column;
 }
 
-.month-cell-header {
+.month-day-header {
   text-align: center;
   font-weight: 600;
 }
@@ -32,7 +32,7 @@
   border: 2px solid #007bff;
 }
 
-.faded-cell {
+.outside-month {
   background-color: #f8f9fa;
   color: #aaa;
 }
@@ -43,12 +43,12 @@
   margin-bottom: 2px;
 }
 
-.day-tasks {
+.month-day-tasks {
   flex: 1;
   overflow: hidden;
 }
 
-.day-task-preview {
+.month-task-item {
   display: flex;
   align-items: center;
   gap: 4px;

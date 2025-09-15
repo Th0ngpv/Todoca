@@ -2,7 +2,7 @@
 :root {
   --color-main: #222;
   --color-accent: #0091ff;
-  --color-bg: #f8f8f8;
+  --color-bg: #ffffff;
   --color-bg-dark: #222;
   --color-success: #00c853;
   --color-danger: #ff5e5e;
@@ -22,9 +22,9 @@
   --space-lg: 24px;
   --space-xl: 32px;
 
-  --font-size-sm: 0.95rem;
-  --font-size-md: 1.1rem;
-  --font-size-lg: 1.3rem;
+  --font-size-sm: 1rem;
+  --font-size-md: 1.2rem;
+  --font-size-lg: 1.4rem;
 }
 
 /* Responsive overrides for mobile */
