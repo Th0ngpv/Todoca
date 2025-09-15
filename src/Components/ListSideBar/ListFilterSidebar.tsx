@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { List } from "../../types";
-import { getLists, addList } from "../../Functions/ListCRUD";
+import { getLists, addList, ensureDefaultList } from "../../Functions/ListCRUD";
 
 import CreateListForm from "./CreateListForm";
 import ListRender from "./ListRender";
@@ -30,6 +30,24 @@ export default function ListFilterSidebar({ selectedListIds, onSelectLists }: Pr
     getLists()
       .then(setLists)
       .finally(() => setLoading(false));
+  }, []);
+
+  // Ensure default list exists on first load
+  useEffect(() => {
+    let mounted = true;
+
+    (async () => {
+      setLoading(true);
+      const seededLists = await ensureDefaultList();
+      if (mounted) {
+        setLists(seededLists);
+        setLoading(false);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   // Handle create new list
