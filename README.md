@@ -23,17 +23,7 @@ npm test
 npm run lint
 
 ## 🔗 Deployed Web URL or APK file
-✍️ [Paste your link here]
-
-## 🎥 Demo Video
-**Demo video link (≤ 2 minutes):**  
-📌 **Video Upload Guideline:** when uploading your demo video to YouTube, please set the visibility to **Unlisted**.  
-- “Unlisted” videos can only be viewed by users who have the link.  
-- The video will not appear in search results or on your channel.  
-- Share the link in your README so mentors can access it.  
-
-✍️ [Paste your video link here]
-
+ https://th0ngpv.github.io/Todoca/
 
 ## 💻 Project Introduction
 
