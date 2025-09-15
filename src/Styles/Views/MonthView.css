@@ -1,10 +1,13 @@
 .calendar-month-view {
   display: flex;
   flex-direction: column;
+
+
 }
 
 .month-title {
-  text-align: center;
+  padding-right: var(--space-sm, 1rem);
+  text-align: right;
   margin-bottom: 1rem;
   font-weight: bold;
 }

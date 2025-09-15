@@ -1,9 +1,10 @@
 .calendar-day-view {
-  padding: 16px;
+  padding: var(--space-sm, 1rem);
 }
 
 .calendar-day-view h3 {
   margin-top: 0;
+  text-align: right;
 }
 
 .day-task-list {

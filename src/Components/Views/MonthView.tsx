@@ -69,7 +69,7 @@ export default function MonthView({
 
   return (
     <div className="calendar-month-view">
-      <h3>{format(currentDate, "MMMM yyyy")}</h3>
+      <h3 className="month-title">{format(currentDate, "MMMM yyyy")}</h3>
 
       <div className="month-grid">
         {days.map((day) => {

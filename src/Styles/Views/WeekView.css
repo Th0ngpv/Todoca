@@ -1,11 +1,12 @@
 .calendar-week-view {
-  padding: 1rem;
+  padding: var(--space-sm, 1rem);
 }
 
 .week-title {
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 1rem;
+  text-align: right;
 }
 
 .week-grid {
